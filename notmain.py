@@ -3,7 +3,7 @@ from flask import request
 from threading import Thread
 import time
 import requests
-from notmain import keep_alive
+
 
 
 app = Flask('')
