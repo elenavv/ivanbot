@@ -1,10 +1,27 @@
+from flask import Flask
+from threading import Thread
 import asyncio
 import logging
 import random
 import sys
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart
 
+# Настройка Flask
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "I'm alive"
+
+def run():
+    app.run(host='0.0.0.0', port=80)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+
+# Настройка бота
 token = "7332915111:AAE6-IynzV_d9JOxei6Q_W7Bm89KOptAIa8"
 dp = Dispatcher()
 
@@ -21,13 +38,12 @@ def get_anek():
 async def start(message: types.Message):
     await message.answer("Нажми на кнопку для анека", reply_markup=get_keys())
 
-@dp.callback_query(F.data.startswith("anek"))
+@dp.callback_query(lambda callback: callback.data.startswith("anek"))
 async def answer_anek(callback: types.CallbackQuery):
     await callback.message.edit_text(text=random.choice(get_anek()), reply_markup=get_keys())
 
 async def main():
-    from notmain import keep_alive  # Импортируем здесь, чтобы избежать циклического импорта
-    keep_alive()
+    keep_alive()  # Запускаем keep_alive()
     
     bot = Bot(token)
     await dp.start_polling(bot)
