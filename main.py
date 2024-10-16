@@ -7,8 +7,9 @@ import sys
 import logging
 import asyncio
 import random
+from notmain import keep_alive
 
-token = ("7332915111:AAE6-IynzV_d9JOxei6Q_W7Bm89KOptAIa8")
+token = "7332915111:AAE6-IynzV_d9JOxei6Q_W7Bm89KOptAIa8"
 dp = Dispatcher()
 
 
